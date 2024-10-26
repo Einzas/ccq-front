@@ -16,7 +16,8 @@ const userInfoSlice = createSlice({
     },
     logOut: (state) => {
       const newState = { ...state, ...initialState };
-      localStorage.setItem('userInfo', JSON.stringify(newState));
+      localStorage.removeItem('userInfo');
+      localStorage.removeItem('user_name');
       return newState;
     },
   },
@@ -29,6 +30,7 @@ export const loginUser = (data) => (dispatch) => {
     .post('auth/login', data)
     .then((response) => {
       dispatch(setUserInfo(response.data));
+      window.location.href = '/dashboard';
     })
     .catch((error) => {
       console.log(error);
@@ -44,6 +46,11 @@ export const registerUser = (data) => (dispatch) => {
     .catch((error) => {
       console.log(error);
     });
+};
+
+export const loginOut = () => (dispatch) => {
+  dispatch(logOut());
+  window.location.href = '/login';
 };
 
 export default userInfoSlice.reducer;

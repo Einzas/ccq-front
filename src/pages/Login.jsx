@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../store/slices/userInfo.slice';
+import { useAuth } from '../hooks/useAuth';
 
 const Login = () => {
+  //detectar si el usuario esta logeado
+
   const dispatch = useDispatch();
 
   const { register, handleSubmit } = useForm();
@@ -11,6 +14,10 @@ const Login = () => {
   const onSubmit = (data) => {
     dispatch(loginUser(data));
   };
+  const isAuth = useAuth();
+  if (isAuth) {
+    window.location.href = '/dashboard';
+  }
 
   return (
     <>
